@@ -2,29 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class Square extends React.Component { // Square informs the Board when it's clicked, and receive the value from Board.
-    // constructor(props) {
-    //     super(props); // need to always call `super` when defining the constructor of a subclass.
-    //                     // therefore, ALWAYS start with a `super(props)` call in React component classes' constructor.
-    //     this.state = { // React component has `state`. Initialize it in the constructor.
-    //         value: null,
-    //     };
-    // }
+// class Square extends React.Component { // Square informs the Board when it's clicked, and receive the value from Board.
+//
+//     render() {
+//         return (        // when a square is clicked, Board's onclick function is called.
+//             <button className="square"
+//                     onClick={()=> this.props.onClick()}>
+//                 {this.props.value}
+//             </button>
+//         );
+//     }
+// }
 
-    render() {
-        return (        // when a square is clicked, Board's onclick function is called.
-            <button className="square"
-                    onClick={()=> this.props.onClick({value: 'X'})}>
-                {this.props.value}
-            </button>
-        );
-    }
+// Turn Square Component to a function --> function component
+//   don't have to worry about `this` in function components
+function Square(props) { // Square informs the Board when it's clicked, and receive the value from Board.
+    return( // when a square is clicked, Board's onclick function is called.
+        <button className="square" onClick={props.onclick}>
+            {props.value}
+        </button>
+    )
 }
 
 class Board extends React.Component { // Board keeps all the state and will determine the winner
     constructor(props) {
-        super(props);
-        this.state = {
+        super(props); // need to always call `super` when defining the constructor of a subclass.
+                        // therefore, ALWAYS start with a `super(props)` call in React component classes' constructor.
+        this.state = {  // React component has `state`. Initialize it in the constructor.
             squares: Array(9).fill(null)
         };
     }
