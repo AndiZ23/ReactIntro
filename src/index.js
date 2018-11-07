@@ -6,15 +6,16 @@ class Square extends React.Component {
     constructor(props) {
         super(props); // need to always call `super` when defining the constructor of a subclass.
                         // therefore, ALWAYS start with a `super(props)` call in React component classes' constructor.
-        this.state = {
+        this.state = { // React component has `state`. Initialize it in the constructor.
             value: null,
         };
     }
 
     render() {
         return (
-            <button className="square" onClick={()=> alert('click')}>
-                {this.props.value}
+            <button className="square"
+                    onClick={()=> this.setState({value: 'X'})}>
+                {this.state.value}
             </button>
         );
     }
