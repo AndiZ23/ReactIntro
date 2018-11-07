@@ -2,28 +2,44 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class Square extends React.Component {
-    constructor(props) {
-        super(props); // need to always call `super` when defining the constructor of a subclass.
-                        // therefore, ALWAYS start with a `super(props)` call in React component classes' constructor.
-        this.state = { // React component has `state`. Initialize it in the constructor.
-            value: null,
-        };
-    }
+class Square extends React.Component { // Square informs the Board when it's clicked, and receive the value from Board.
+    // constructor(props) {
+    //     super(props); // need to always call `super` when defining the constructor of a subclass.
+    //                     // therefore, ALWAYS start with a `super(props)` call in React component classes' constructor.
+    //     this.state = { // React component has `state`. Initialize it in the constructor.
+    //         value: null,
+    //     };
+    // }
 
     render() {
-        return (
+        return (        // when a square is clicked, Board's onclick function is called.
             <button className="square"
-                    onClick={()=> this.setState({value: 'X'})}>
-                {this.state.value}
+                    onClick={()=> this.props.onClick({value: 'X'})}>
+                {this.props.value}
             </button>
         );
     }
 }
 
-class Board extends React.Component {
+class Board extends React.Component { // Board keeps all the state and will determine the winner
+    constructor(props) {
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null)
+        };
+    }
+
+    handleClick(i) {
+        const squares = this.state.squares.slice();  // immutability: allows it jump back to previous states.
+        squares[i] = 'X';
+        this.setState({squares: squares});
+    }
+
     renderSquare(i) {
-        return <Square value={i} />;
+        return (
+            <Square value={this.state.squares[i]}
+                       onClick={() => this.handleClick(i)}/>
+        );
     }
 
     render() {
