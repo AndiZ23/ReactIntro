@@ -18,7 +18,7 @@ import './index.css';
 //   don't have to worry about `this` in function components
 function Square(props) { // Square informs the Board when it's clicked, and receive the value from Board.
     return( // when a square is clicked, Board's onclick function is called.
-        <button className="square" onClick={props.onclick}>
+        <button className="square" onClick={props.onClick}>
             {props.value}
         </button>
     )
@@ -29,14 +29,18 @@ class Board extends React.Component { // Board keeps all the state and will dete
         super(props); // need to always call `super` when defining the constructor of a subclass.
                         // therefore, ALWAYS start with a `super(props)` call in React component classes' constructor.
         this.state = {  // React component has `state`. Initialize it in the constructor.
-            squares: Array(9).fill(null)
+            squares: Array(9).fill(null),
+            xIsNext: true,
         };
     }
 
     handleClick(i) {
         const squares = this.state.squares.slice();  // immutability: allows it jump back to previous states.
-        squares[i] = 'X';
-        this.setState({squares: squares});
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({
+            squares: squares,
+            xIsNext: !this.state.xIsNext,
+        });
     }
 
     renderSquare(i) {
@@ -47,7 +51,7 @@ class Board extends React.Component { // Board keeps all the state and will dete
     }
 
     render() {
-        const status = 'Next player: X';
+        const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
 
         return (
             <div>
